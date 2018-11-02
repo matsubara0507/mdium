@@ -1,0 +1,62 @@
+name:                mdium
+version:             0.1.0.0
+#synopsis:
+#description:
+homepage:            https://github.com/matsubara0507/mdium#readme
+license:             MIT
+author:              MATSUBARA Nobutada
+maintainer:          t12307043@gunma-u.ac.jp
+copyright:           MATSUBARA Nobutada
+category:            Web
+description:         Please see the README on GitHub at <https://github.com/matsubara0507/mdium#readme>
+
+extra-source-files:
+- README.md
+- CHANGELOG.md
+
+ghc-options:
+- -Wall
+- -Wcompat
+- -Wincomplete-record-updates
+- -Wincomplete-uni-patterns
+- -Wredundant-constraints
+
+default-extensions:
+- NoImplicitPrelude
+
+- ConstraintKinds
+- FlexibleContexts
+- FlexibleInstances
+- GeneralizedNewtypeDeriving
+- OverloadedStrings
+- PolyKinds
+- RankNTypes
+- StandaloneDeriving
+- TypeFamilies
+- TypeSynonymInstances
+
+dependencies:
+- base >= 4.7 && < 5
+- rio >= 0.1.1.0
+- extensible >= 0.4.9
+
+library:
+  source-dirs: src
+
+executables:
+  mdium:
+    main: Main.hs
+    source-dirs: app
+    dependencies:
+    - mdium
+    - gitrev
+
+tests:
+  mdium-test:
+    main: Driver.hs
+    source-dirs: test
+    dependencies:
+    - mdium
+    - tasty
+    - tasty-hspec
+    other-modules: []

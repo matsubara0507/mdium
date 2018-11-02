@@ -2,7 +2,7 @@
 {-# LANGUAGE OverloadedLabels #-}
 {-# LANGUAGE TypeOperators    #-}
 
-module Lib.Cmd.Options where
+module Mdium.Cmd.Options where
 
 import           RIO
 

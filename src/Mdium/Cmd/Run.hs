@@ -2,13 +2,13 @@
 {-# LANGUAGE OverloadedLabels #-}
 {-# LANGUAGE TypeOperators    #-}
 
-module Lib.Cmd.Run where
+module Mdium.Cmd.Run where
 
 import           RIO
 
 import           Data.Extensible
-import           Lib.Cmd.Options
-import           Lib.Env
+import           Mdium.Cmd.Options
+import           Mdium.Env
 
 run :: (MonadUnliftIO m, MonadThrow m) => Options -> m ()
 run opts = do

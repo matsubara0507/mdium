@@ -17,4 +17,4 @@ type Env = Record
 instance HasLogFunc Env where
   logFuncL = lens (view #logger) (\x y -> x & #logger `set` y)
 
-type MediumToken = String
+type MediumToken = ByteString

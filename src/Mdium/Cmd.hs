@@ -13,10 +13,12 @@ import           Mdium.Cmd.Run     as X
 
 data Cmd
   = PrintVersion
-  | RunCmd Options
+  | CallMeAPI Options
+  | PostStory Options
   deriving (Show, Eq)
 
 toCmd :: Options -> Cmd
 toCmd opts
   | opts ^. #version = PrintVersion
-  | otherwise        = RunCmd opts
+  | opts ^. #me      = CallMeAPI opts
+  | otherwise        = PostStory opts

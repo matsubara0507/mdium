@@ -7,7 +7,7 @@ module Mdium.Cmd.Run where
 import           RIO
 
 import           Data.Extensible
-import           Mdium.API          (getMe)
+import qualified Mdium.API          as API (getMe, postStory)
 import           Mdium.Cmd.Options
 import           Mdium.Env
 import           System.Environment (getEnv)
@@ -22,14 +22,38 @@ run cmd opts = do
            <: nil
     runRIO env cmd
 
-postStory :: RIO Env ()
-postStory = showNotImpl
+postStory :: FilePath -> RIO Env ()
+postStory path = do
+  logDebug "Run cmd: post story"
+
+  logDebug $ fromString ("read file: " <> path)
+  content <- readFileUtf8 path
+  logDebug $ display ("readed file: " <> content)
+
+  token   <- asks (view #token)
+  user <- API.getMe token
+  logDebug $ display ("get: " <> tshow user)
+
+  let params = #title           @= ""
+            <: #contentFormat   @= "markdown"
+            <: #content         @= content
+            <: #tags            @= []
+            <: #canonicalUrl    @= Nothing
+            <: #publishStatus   @= Just "draft"
+            <: #license         @= Nothing
+            <: #notifyFollowers @= Nothing
+            <: nil
+  logDebug $ display ("post params: " <> tshow params)
+
+  story <- API.postStory token user params
+  logDebug $ display ("post: " <> tshow story)
+  logInfo  $ display ("post success, browse to: " <> story ^. #url)
 
 callMeAPI :: RIO Env ()
 callMeAPI = do
   logDebug "Run cmd: call me api"
   token <- asks (view #token)
-  user <- getMe token
+  user <- API.getMe token
   logDebug $ display ("get: " <> tshow user)
   logInfo  $ display ("Hi " <> user ^. #name <> "!!")
 

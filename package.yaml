@@ -39,6 +39,7 @@ dependencies:
 - base >= 4.7 && < 5
 - rio >= 0.1.1.0
 - extensible >= 0.4.9
+- aeson
 - wreq
 
 library:

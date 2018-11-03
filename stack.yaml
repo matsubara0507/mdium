@@ -1,3 +1,6 @@
 resolver: lts-12.16
 packages:
 - .
+extra-deps:
+- dotenv-0.6.0.3
+- megaparsec-7.0.3

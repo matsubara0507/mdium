@@ -50,6 +50,7 @@ executables:
     dependencies:
     - mdium
     - gitrev
+    - dotenv
 
 tests:
   mdium-test:

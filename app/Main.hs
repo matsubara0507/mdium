@@ -29,7 +29,7 @@ main = withGetOpt "[options] [input-file]" opts $ \r args -> do
   _ <- loadEnvFileIfExist $ defaultConfig
   _ <- loadEnvFileIfExist $ defaultConfig { configPath = [homeDir <> "/.env"] }
   case toCmd (#input @= args <: r) of
-    PrintVersion    -> B.putStr $ fromString (showVersion version)
+    PrintVersion    -> B.putStr $ fromString (showVersion version <> "\n")
     CallMeAPI opts' -> run callMeAPI opts'
     PostStory opts' -> run postStory opts'
   where

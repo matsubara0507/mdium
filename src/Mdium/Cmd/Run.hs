@@ -34,4 +34,4 @@ callMeAPI = do
   logInfo  $ display ("Hi " <> user ^. #name <> "!!")
 
 showNotImpl :: MonadIO m => m ()
-showNotImpl = hPutBuilder stdout "not yet implement command."
+showNotImpl = hPutBuilder stdout "not yet implement command.\n"

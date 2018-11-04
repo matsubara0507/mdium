@@ -7,8 +7,8 @@ I like Markdwon!
 - hoge
 - fuga
 
-I lile *Haskell* !
-I lile **Haskell** !!
+I like *Haskell* !
+I like **Haskell** !!
 
 1. Hoge
 2. Fuga

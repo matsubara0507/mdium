@@ -3,7 +3,7 @@
 ## Requirement
 
 - git
-- [Haskell Stack](https://docs.haskellstack.org/en/stable/README/)
+- [Haskell Stack](https://docs.haskellstack.org/en/stable/README/) or Docker
 - Medium integration token
     - you can generate in [medium settigns](https://medium.com/me/settings).
 
@@ -20,6 +20,18 @@ Install with stack tool:
 
 ```
 $ stack install mdium
+```
+
+### Install with Docker
+
+```
+$ docker pull matsubara0507/mdium
+```
+
+use command:
+
+```
+$ docker run --rm --env-file="$HOME/.env" -v `pwd`:/work matsubara0507/mdium /bin/bash -c "cd work && mdium example/example.md"
 ```
 
 ## Usage
@@ -58,5 +70,4 @@ then generate story like below in Medium:
 $ stack docker pull
 $ stack --docker build
 $ stack --docker image container
-$ docker run --rm --env-file="$HOME/.env" -v `pwd`:/work mdium /bin/bash -c "cd work && mdium example/example.md"
 ```

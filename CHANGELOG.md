@@ -4,6 +4,7 @@
 
 - Feat: `--title` option (explicit specify post title)
 - Reafactor: `API.defaultPostStroyParams`
+- Feat: docker image
 
 ## 0.1.0.0
 

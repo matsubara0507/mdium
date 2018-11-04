@@ -14,6 +14,7 @@ type Options = Record
    , "version" >: Bool
    , "verbose" >: Bool
    , "me"      >: Bool
+   , "title"   >: Text
    ]
 
 versionOpt :: OptDescr' Bool
@@ -24,3 +25,16 @@ verboseOpt = optFlag ['v'] ["verbose"] "Enable verbose mode: verbosity level \"d
 
 meOpt :: OptDescr' Bool
 meOpt = optFlag [] ["me"] "Call Medium `me` API"
+
+titleOpt :: OptDescr' Text
+titleOpt =
+  fromString <$> optLastArgWithDefault [] ["title"] "" "TEXT" "Specify title of story that post to medium"
+
+optLastArgWithDefault
+  :: [Char]   -- ^ short option
+  -> [String] -- ^ long option
+  -> String   -- ^ default value
+  -> String   -- ^ placeholder
+  -> String   -- ^ explanation
+  -> OptDescr' String
+optLastArgWithDefault ss ls dv ph expl = fromMaybe dv <$> optLastArg ss ls ph expl

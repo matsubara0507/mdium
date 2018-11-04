@@ -22,8 +22,8 @@ run cmd opts = do
            <: nil
     runRIO env cmd
 
-postStory :: FilePath -> RIO Env ()
-postStory path = do
+postStory :: FilePath -> Text -> RIO Env ()
+postStory path title = do
   logDebug "Run cmd: post story"
 
   logDebug $ fromString ("read file: " <> path)
@@ -34,7 +34,7 @@ postStory path = do
   user <- API.getMe token
   logDebug $ display ("get: " <> tshow user)
 
-  let params = #title           @= ""
+  let params = #title           @= title
             <: #contentFormat   @= "markdown"
             <: #content         @= content
             <: #tags            @= []

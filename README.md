@@ -24,11 +24,13 @@ $ stack install mdium
 
 ### Install with Docker
 
+Use https://hub.docker.com/r/matsubara0507/mdium/
+
 ```
 $ docker pull matsubara0507/mdium
 ```
 
-use command:
+Use command:
 
 ```
 $ docker run --rm --env-file="$HOME/.env" -v `pwd`:/work matsubara0507/mdium /bin/bash -c "cd work && mdium example/example.md"

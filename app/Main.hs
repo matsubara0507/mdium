@@ -31,7 +31,7 @@ main = withGetOpt "[options] [input-file]" opts $ \r args -> do
   case toCmd (#input @= args <: r) of
     PrintVersion    -> B.putStr $ fromString (showVersion version <> "\n")
     CallMeAPI opts' -> run callMeAPI opts'
-    PostStory opts' -> run (postStory (getPath opts') (opts' ^. #title)) opts'
+    PostStory opts' -> run (postStory (opts' ^. #input) (opts' ^. #title)) opts'
   where
     loadEnvFileIfExist conf =
       whenM (and <$> mapM doesFileExist (configPath conf)) (void $ loadFile conf)
@@ -40,8 +40,6 @@ main = withGetOpt "[options] [input-file]" opts $ \r args -> do
         <: #me      @= meOpt
         <: #title   @= titleOpt
         <: nil
-    getPath opts' =
-      fromMaybe (error "please input filepath") $ listToMaybe (opts' ^. #input)
 
 showVersion :: Version -> String
 showVersion v = unwords

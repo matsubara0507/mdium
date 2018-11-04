@@ -14,7 +14,7 @@ import           Mdium.Env
 import           System.Environment (getEnv)
 import           System.IO          (hSetEncoding)
 
-run :: (MonadUnliftIO m, MonadThrow m) => RIO Env () -> Options -> m ()
+run :: MonadUnliftIO m => RIO Env () -> Options -> m ()
 run cmd opts = do
   liftIO $ hSetEncoding stdout utf8
   token   <- liftIO $ getEnv "MEDIUM_TOKEN"

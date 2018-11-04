@@ -3,6 +3,7 @@
 ## Unreleased changes
 
 - Feat: `--title` option (explicit specify post title)
+- Reafactor: `API.defaultPostStroyParams`
 
 ## 0.1.0.0
 

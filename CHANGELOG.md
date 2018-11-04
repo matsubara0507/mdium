@@ -2,6 +2,8 @@
 
 ## Unreleased changes
 
+## 0.2.0.0
+
 - Feat: `--title` option (explicit specify post title)
 - Reafactor: `API.defaultPostStroyParams`
 - Feat: docker image

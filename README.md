@@ -49,3 +49,14 @@ post success, browse to: https://medium.com/@nobutada/e31f70013b36
 then generate story like below in Medium:
 
 ![](example/example.png)
+
+## For Development
+
+### Build with Docker
+
+```
+$ stack docker pull
+$ stack --docker build
+$ stack --docker image container
+$ docker run --rm --env-file="$HOME/.env" -v `pwd`:/work mdium /bin/bash -c "cd work && mdium example/example.md"
+```

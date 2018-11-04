@@ -7,13 +7,16 @@ module Mdium.Cmd.Run where
 import           RIO
 
 import           Data.Extensible
+import           GHC.IO.Encoding    (utf8)
 import qualified Mdium.API          as API
 import           Mdium.Cmd.Options
 import           Mdium.Env
 import           System.Environment (getEnv)
+import           System.IO          (hSetEncoding)
 
 run :: (MonadUnliftIO m, MonadThrow m) => RIO Env () -> Options -> m ()
 run cmd opts = do
+  liftIO $ hSetEncoding stdout utf8
   token   <- liftIO $ getEnv "MEDIUM_TOKEN"
   logOpts <- logOptionsHandle stdout (opts ^. #verbose)
   withLogFunc logOpts $ \logger -> do

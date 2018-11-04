@@ -7,7 +7,7 @@ module Mdium.Cmd.Run where
 import           RIO
 
 import           Data.Extensible
-import qualified Mdium.API          as API (getMe, postStory)
+import qualified Mdium.API          as API
 import           Mdium.Cmd.Options
 import           Mdium.Env
 import           System.Environment (getEnv)
@@ -34,15 +34,11 @@ postStory path title = do
   user <- API.getMe token
   logDebug $ display ("get: " <> tshow user)
 
-  let params = #title           @= title
-            <: #contentFormat   @= "markdown"
-            <: #content         @= content
-            <: #tags            @= []
-            <: #canonicalUrl    @= Nothing
-            <: #publishStatus   @= Just "draft"
-            <: #license         @= Nothing
-            <: #notifyFollowers @= Nothing
-            <: nil
+  let params = API.defaultPostStroyParams
+             & #title `set` title
+             & #contentFormat `set` "markdown"
+             & #content `set` content
+             & #publishStatus `set` Just "draft"
   logDebug $ display ("post params: " <> tshow params)
 
   story <- API.postStory token user params

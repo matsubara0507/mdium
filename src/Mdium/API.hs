@@ -48,6 +48,18 @@ type PostStoryParams = Record
     , "notifyFollowers" >: Maybe Bool
     ]
 
+defaultPostStroyParams :: PostStoryParams
+defaultPostStroyParams
+    = #title           @= ""
+   <: #contentFormat   @= "html"
+   <: #content         @= ""
+   <: #tags            @= []
+   <: #canonicalUrl    @= Nothing
+   <: #publishStatus   @= Nothing
+   <: #license         @= Nothing
+   <: #notifyFollowers @= Nothing
+   <: nil
+
 peelData :: RespData a -> a
 peelData = view #data
 

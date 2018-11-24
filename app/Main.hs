@@ -33,14 +33,16 @@ main = withGetOpt "[options] [input-file]" opts $ \r args -> do
     CallMeAPI opts'       -> run callMeAPI opts'
     PostStory opts'       -> run (postStory (opts' ^. #input) (opts' ^. #title)) opts'
     PostStroyTo opts' pid -> run (postStroyWithPublicationId pid (opts' ^. #input) (opts' ^. #title)) opts'
+    PublicationsAPI opts' -> run publicationsAPI opts'
   where
     loadEnvFileIfExist conf =
       whenM (and <$> mapM doesFileExist (configPath conf)) (void $ loadFile conf)
-    opts = #version @= versionOpt
-        <: #verbose @= verboseOpt
-        <: #me      @= meOpt
-        <: #title   @= titleOpt
-        <: #org     @= orgOpt
+    opts = #version      @= versionOpt
+        <: #verbose      @= verboseOpt
+        <: #me           @= meOpt
+        <: #title        @= titleOpt
+        <: #org          @= orgOpt
+        <: #publications @= publicationsOpt
         <: nil
 
 showVersion :: Version -> String

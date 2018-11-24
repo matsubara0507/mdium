@@ -48,6 +48,14 @@ type PostStoryParams = Record
     , "notifyFollowers" >: Maybe Bool
     ]
 
+type Publication = Record
+   '[ "id"          >: Text
+    , "name"        >: Text
+    , "description" >: Text
+    , "url"         >: Text
+    , "imageUrl"    >: Text
+    ]
+
 defaultPostStroyParams :: PostStoryParams
 defaultPostStroyParams
     = #title           @= ""
@@ -71,6 +79,15 @@ getMe token = do
   resp <- W.asJSON =<< liftIO (W.getWith opts $ baseUrl <> "/me")
   pure $ peelData (resp ^. W.responseBody)
   where
+    opts = W.defaults & auth `set` Just (oauth2Bearer token)
+
+getPublications ::
+  (MonadThrow m, MonadIO m) => MediumToken -> Text -> m [Publication]
+getPublications token userId = do
+  resp <- W.asJSON =<< liftIO (W.getWith opts url)
+  pure $ peelData (resp ^. W.responseBody)
+  where
+    url  = baseUrl <> "/users/" <> Text.unpack userId <> "/publications"
     opts = W.defaults & auth `set` Just (oauth2Bearer token)
 
 postStory ::

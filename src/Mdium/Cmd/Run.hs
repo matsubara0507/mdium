@@ -86,5 +86,15 @@ callMeAPI = do
   logDebug $ display ("get: " <> tshow user)
   logInfo  $ display ("Hi " <> user ^. #name <> "!!")
 
+publicationsAPI :: RIO Env ()
+publicationsAPI = do
+  logDebug "Run cmd: call publications api"
+  token <- asks (view #token)
+  user <- API.getMe token
+  publications <- API.getPublications token (user ^. #id)
+  logDebug $ display ("get: " <> tshow publications)
+  forM_ publications $ \publication ->
+    logInfo $ display (publication ^. #name <> " (id: " <> publication ^. #id <> ")")
+
 showNotImpl :: MonadIO m => m ()
 showNotImpl = hPutBuilder stdout "not yet implement command.\n"

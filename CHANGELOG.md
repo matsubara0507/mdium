@@ -2,6 +2,9 @@
 
 ## Unreleased changes
 
+- Feat: `--publications` option (show your publication groups)
+- Feat: `--orgs` option (post story to publication)
+
 ## 0.2.0.0
 
 - Feat: `--title` option (explicit specify post title)

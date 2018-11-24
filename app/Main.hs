@@ -29,16 +29,20 @@ main = withGetOpt "[options] [input-file]" opts $ \r args -> do
   _ <- loadEnvFileIfExist $ defaultConfig
   _ <- loadEnvFileIfExist $ defaultConfig { configPath = [homeDir <> "/.env"] }
   case toCmd (#input @= args <: r) of
-    PrintVersion    -> B.putStr $ fromString (showVersion version <> "\n")
-    CallMeAPI opts' -> run callMeAPI opts'
-    PostStory opts' -> run (postStory (opts' ^. #input) (opts' ^. #title)) opts'
+    PrintVersion          -> B.putStr $ fromString (showVersion version <> "\n")
+    CallMeAPI opts'       -> run callMeAPI opts'
+    PostStory opts'       -> run (postStory (opts' ^. #input) (opts' ^. #title)) opts'
+    PostStroyTo opts' pid -> run (postStroyWithPublicationId pid (opts' ^. #input) (opts' ^. #title)) opts'
+    PublicationsAPI opts' -> run publicationsAPI opts'
   where
     loadEnvFileIfExist conf =
       whenM (and <$> mapM doesFileExist (configPath conf)) (void $ loadFile conf)
-    opts = #version @= versionOpt
-        <: #verbose @= verboseOpt
-        <: #me      @= meOpt
-        <: #title   @= titleOpt
+    opts = #version      @= versionOpt
+        <: #verbose      @= verboseOpt
+        <: #me           @= meOpt
+        <: #title        @= titleOpt
+        <: #org          @= orgOpt
+        <: #publications @= publicationsOpt
         <: nil
 
 showVersion :: Version -> String

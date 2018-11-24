@@ -10,11 +10,13 @@ import           Data.Extensible
 import           Data.Extensible.GetOpt
 
 type Options = Record
-  '[ "input"   >: [String]
-   , "version" >: Bool
-   , "verbose" >: Bool
-   , "me"      >: Bool
-   , "title"   >: Text
+  '[ "input"        >: [String]
+   , "version"      >: Bool
+   , "verbose"      >: Bool
+   , "me"           >: Bool
+   , "title"        >: Text
+   , "org"          >: Maybe Text
+   , "publications" >: Bool
    ]
 
 versionOpt :: OptDescr' Bool
@@ -29,6 +31,13 @@ meOpt = optFlag [] ["me"] "Call Medium `me` API"
 titleOpt :: OptDescr' Text
 titleOpt =
   fromString <$> optLastArgWithDefault [] ["title"] "" "TEXT" "Specify title of story that post to medium"
+
+orgOpt :: OptDescr' (Maybe Text)
+orgOpt =
+  fmap fromString <$> optLastArg [] ["org"] "PUBLICATION_ID" "Post to override story of PUBLICATION_ID"
+
+publicationsOpt :: OptDescr' Bool
+publicationsOpt = optFlag [] ["publications"] "Call Medium `publications` API"
 
 optLastArgWithDefault
   :: [Char]   -- ^ short option

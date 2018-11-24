@@ -81,3 +81,13 @@ postStory token user params = do
   where
     url  = baseUrl <> "/users/" <> Text.unpack (user ^. #id) <> "/posts"
     opts = W.defaults & auth `set` Just (oauth2Bearer token)
+
+postStroyWithPublicationId ::
+  (MonadThrow m, MonadIO m) => MediumToken -> Text -> PostStoryParams -> m Story
+postStroyWithPublicationId token pid params = do
+  resp <- W.asJSON =<< liftIO (W.postWith opts url $ toJSON params')
+  pure $ peelData (resp ^. W.responseBody)
+  where
+    url     = baseUrl <> "/publications/" <> Text.unpack pid <> "/posts"
+    opts    = W.defaults & auth `set` Just (oauth2Bearer token)
+    params' = #publicationId @= pid <: params

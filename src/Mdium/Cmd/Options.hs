@@ -15,6 +15,7 @@ type Options = Record
    , "verbose" >: Bool
    , "me"      >: Bool
    , "title"   >: Text
+   , "org"     >: Maybe Text
    ]
 
 versionOpt :: OptDescr' Bool
@@ -29,6 +30,10 @@ meOpt = optFlag [] ["me"] "Call Medium `me` API"
 titleOpt :: OptDescr' Text
 titleOpt =
   fromString <$> optLastArgWithDefault [] ["title"] "" "TEXT" "Specify title of story that post to medium"
+
+orgOpt :: OptDescr' (Maybe Text)
+orgOpt =
+  fmap fromString <$> optLastArg [] ["org"] "PUBLICATION_ID" "Post to override story of PUBLICATION_ID"
 
 optLastArgWithDefault
   :: [Char]   -- ^ short option

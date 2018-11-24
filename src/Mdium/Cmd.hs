@@ -15,10 +15,11 @@ data Cmd
   = PrintVersion
   | CallMeAPI Options
   | PostStory Options
+  | PostStroyTo Options Text
   deriving (Show, Eq)
 
 toCmd :: Options -> Cmd
 toCmd opts
   | opts ^. #version = PrintVersion
   | opts ^. #me      = CallMeAPI opts
-  | otherwise        = PostStory opts
+  | otherwise        = maybe (PostStory opts) (PostStroyTo opts) (opts ^. #org)

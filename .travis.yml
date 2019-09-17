@@ -19,9 +19,16 @@ jobs:
     - stage: run test
       script: stack --docker --no-terminal test --bench --no-run-benchmarks --no-haddock-deps --pedantic
     - stage: push docker image
-      if: branch = master
+      if: branch = master AND type = push
       script:
        - stack --docker --local-bin-path=./bin install
-       - docker build -t matsubara0507/dockwright . --build-arg local_bin_path=./bin
+       - docker build -t $TRAVIS_REPO_SLUG . --build-arg local_bin_path=./bin
        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
        - docker push $TRAVIS_REPO_SLUG
+    - stage: push tagged docker image
+      if: tag IS present
+      script:
+      - stack --docker --local-bin-path=./bin install
+      - docker build -t $TRAVIS_REPO_SLUG:$TRAVIS_TAG . --build-arg local_bin_path=./bin
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - docker push $TRAVIS_REPO_SLUG:$TRAVIS_TAG

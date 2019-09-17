@@ -1,5 +1,3 @@
-{-# LANGUAGE OverloadedLabels #-}
-
 module Mdium.Cmd
     ( module X
     , Cmd (..)

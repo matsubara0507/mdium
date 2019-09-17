@@ -7,6 +7,7 @@ import           Data.Extensible.GetOpt
 
 type Options = Record
   '[ "input"        >: [String]
+   , "help"         >: Bool
    , "version"      >: Bool
    , "verbose"      >: Bool
    , "me"           >: Bool
@@ -14,6 +15,9 @@ type Options = Record
    , "org"          >: Maybe Text
    , "publications" >: Bool
    ]
+
+helpOpt :: OptDescr' Bool
+helpOpt = optFlag [] ["help"] "Show this help text"
 
 versionOpt :: OptDescr' Bool
 versionOpt = optFlag [] ["version"] "Show version"

@@ -10,7 +10,8 @@ import           Mdium.Cmd.Options as X
 import           Mdium.Cmd.Run     as X
 
 data Cmd
-  = PrintVersion
+  = PrintHelp
+  | PrintVersion
   | CallMeAPI Options
   | PostStory Options
   | PostStroyTo Options Text
@@ -19,6 +20,7 @@ data Cmd
 
 toCmd :: Options -> Cmd
 toCmd opts
+  | opts ^. #help         = PrintHelp
   | opts ^. #version      = PrintVersion
   | opts ^. #me           = CallMeAPI opts
   | opts ^. #publications = PublicationsAPI opts

@@ -2,7 +2,6 @@
 
 ## Requirement
 
-- git
 - [Haskell Stack](https://docs.haskellstack.org/en/stable/README/) or Docker
 - Medium integration token
     - you can generate in [medium settigns](https://medium.com/me/settings).
@@ -39,10 +38,15 @@ $ docker run --rm --env-file="$HOME/.env" -v `pwd`:/work matsubara0507/mdium /bi
 ## Usage
 
 ```
+$ mdium --help
 mdium [options] [input-file]
-      --version  Show version
-  -v  --verbose  Enable verbose mode: verbosity level "debug"
-      --me       Call Medium `me` API
+      --help                Show this help text
+      --version             Show version
+  -v  --verbose             Enable verbose mode: verbosity level "debug"
+      --me                  Call Medium `me` API
+      --title=TEXT          Specify title of story that post to medium
+      --org=PUBLICATION_ID  Post to override story of PUBLICATION_ID
+      --publications        Call Medium `publications` API
 ```
 
 Set Medium integration token to `MEDIUM_TOKEN` environment (use `./.env` or `~/.env`).
@@ -69,7 +73,6 @@ then generate story like below in Medium:
 ### Build with Docker
 
 ```
-$ stack docker pull
-$ stack --docker build
-$ stack --docker image container
+$ stack --docker --local-bin-path=./bin install
+$ docker build -t matsubara0507/mdium . --build-arg local_bin_path=./bin
 ```

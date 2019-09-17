@@ -34,7 +34,7 @@ titleOpt =
 
 orgOpt :: OptDescr' (Maybe Text)
 orgOpt =
-  fmap fromString <$> optLastArg [] ["org"] "PUBLICATION_ID" "Post to override story of PUBLICATION_ID"
+  fmap fromString <$> optLastArg [] ["org"] "PUBLICATION_ID" "Post story to PUBLICATION_ID organization"
 
 publicationsOpt :: OptDescr' Bool
 publicationsOpt = optFlag [] ["publications"] "Call Medium `publications` API"

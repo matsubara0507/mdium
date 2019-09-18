@@ -1,6 +1,3 @@
-{-# LANGUAGE DataKinds        #-}
-{-# LANGUAGE OverloadedLabels #-}
-{-# LANGUAGE TypeOperators    #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
 module Mdium.Env where
@@ -13,8 +10,5 @@ type Env = Record
   '[ "logger" >: LogFunc
    , "token"  >: MediumToken
    ]
-
-instance HasLogFunc Env where
-  logFuncL = lens (view #logger) (\x y -> x & #logger `set` y)
 
 type MediumToken = ByteString

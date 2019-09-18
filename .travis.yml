@@ -12,17 +12,23 @@ install:
 - mkdir -p ~/.local/bin
 - export PATH=$HOME/.local/bin:$PATH
 - travis_retry curl -L https://www.stackage.org/stack/linux-x86_64 | tar xz --wildcards --strip-components=1 -C ~/.local/bin '*/stack'
-- stack install tasty-discover
 jobs:
   include:
     - stage: build dependencies
-      script: stack --no-terminal --install-ghc test --bench --only-dependencies
+      script: stack --docker --no-terminal --install-ghc test --bench --only-dependencies
     - stage: run test
-      script: stack --no-terminal test --bench --no-run-benchmarks --no-haddock-deps --pedantic
+      script: stack --docker --no-terminal test --bench --no-run-benchmarks --no-haddock-deps --pedantic
     - stage: push docker image
-      if: branch = master
+      if: branch = master AND type = push
       script:
-       - stack docker pull
-       - stack --docker image container
+       - stack --docker --local-bin-path=./bin install
+       - docker build -t $TRAVIS_REPO_SLUG . --build-arg local_bin_path=./bin
        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
        - docker push $TRAVIS_REPO_SLUG
+    - stage: push tagged docker image
+      if: tag IS present
+      script:
+      - stack --docker --local-bin-path=./bin install
+      - docker build -t $TRAVIS_REPO_SLUG:$TRAVIS_TAG . --build-arg local_bin_path=./bin
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - docker push $TRAVIS_REPO_SLUG:$TRAVIS_TAG

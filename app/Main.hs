@@ -1,35 +1,23 @@
-{-# LANGUAGE DataKinds             #-}
-{-# LANGUAGE FlexibleContexts      #-}
-{-# LANGUAGE LambdaCase            #-}
-{-# LANGUAGE MultiParamTypeClasses #-}
-{-# LANGUAGE OverloadedLabels      #-}
-{-# LANGUAGE OverloadedStrings     #-}
-{-# LANGUAGE TemplateHaskell       #-}
-{-# LANGUAGE TypeFamilies          #-}
-{-# LANGUAGE TypeOperators         #-}
-
 module Main where
 
-import           Paths_mdium            (version)
+import           Paths_mdium          (version)
 import           RIO
-import qualified RIO.ByteString         as B
-import           RIO.Directory          (doesFileExist, getHomeDirectory)
+import           RIO.Directory        (doesFileExist, getHomeDirectory)
 
-import           Configuration.Dotenv   (Config (..), defaultConfig, loadFile)
+import           Configuration.Dotenv (Config (..), defaultConfig, loadFile)
 import           Data.Extensible
-import           Data.Extensible.GetOpt
-import           Data.Version           (Version)
-import qualified Data.Version           as Version
-import           Development.GitRev
+import           GetOpt               (withGetOpt')
 import           Mdium.Cmd
+import qualified Version
 
 main :: IO ()
-main = withGetOpt "[options] [input-file]" opts $ \r args -> do
+main = withGetOpt' "[options] [input-file]" opts $ \r args usage -> do
   homeDir <- getHomeDirectory
   _ <- loadEnvFileIfExist $ defaultConfig
   _ <- loadEnvFileIfExist $ defaultConfig { configPath = [homeDir <> "/.env"] }
   case toCmd (#input @= args <: r) of
-    PrintVersion          -> B.putStr $ fromString (showVersion version <> "\n")
+    PrintHelp             -> hPutBuilder stdout (fromString usage)
+    PrintVersion          -> hPutBuilder stdout (Version.build version)
     CallMeAPI opts'       -> run callMeAPI opts'
     PostStory opts'       -> run (postStory (opts' ^. #input) (opts' ^. #title)) opts'
     PostStroyTo opts' pid -> run (postStroyWithPublicationId pid (opts' ^. #input) (opts' ^. #title)) opts'
@@ -37,19 +25,11 @@ main = withGetOpt "[options] [input-file]" opts $ \r args -> do
   where
     loadEnvFileIfExist conf =
       whenM (and <$> mapM doesFileExist (configPath conf)) (void $ loadFile conf)
-    opts = #version      @= versionOpt
+    opts = #help         @= helpOpt
+        <: #version      @= versionOpt
         <: #verbose      @= verboseOpt
         <: #me           @= meOpt
         <: #title        @= titleOpt
         <: #org          @= orgOpt
         <: #publications @= publicationsOpt
         <: nil
-
-showVersion :: Version -> String
-showVersion v = unwords
-  [ "Version"
-  , Version.showVersion v ++ ","
-  , "Git revision"
-  , $(gitHash)
-  , "(" ++ $(gitCommitCount) ++ " commits)"
-  ]

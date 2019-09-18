@@ -1,14 +1,19 @@
-resolver: lts-12.16
+resolver: lts-14.6
 packages:
 - .
 extra-deps:
-- dotenv-0.6.0.3
-- megaparsec-7.0.3
+- dotenv-0.8.0.2
+- megaparsec-7.0.5
+- extensible-0.6.1
+- membership-0
+- github: matsubara0507/fallible
+  commit: dfbdce1a0b0c71bcfcea844c94f9cb815f071235
+- github: matsubara0507/mix.hs
+  commit: 4978a33dec736799b30c14e215f7fa0f29fa2884
+  subdirs:
+  - mix
+  - mix-json-logger
 
 docker:
-  repo: fpco/stack-build
+  repo: matsubara0507/stack-build
   enable: false
-image:
-  container:
-    name: matsubara0507/mdium
-    base: fpco/ubuntu-with-libgmp

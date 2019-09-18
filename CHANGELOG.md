@@ -2,8 +2,15 @@
 
 ## Unreleased changes
 
+### 1.0.0
+
 - Feat: `--publications` option (show your publication groups)
 - Feat: `--orgs` option (post story to publication)
+- Refactor: update all for lts-14.6 and stack v2
+    - update deps package extensible to 0.6.1
+    - use mix.hs and fallible
+    - use githash instead of gitrev
+    - update docker integration
 
 ## 0.2.0.0
 

@@ -1,7 +1,5 @@
 name:                mdium
-version:             0.2.0.0
-#synopsis:
-#description:
+version:             1.0.0
 homepage:            https://github.com/matsubara0507/mdium#readme
 license:             MIT
 author:              MATSUBARA Nobutada
@@ -25,21 +23,28 @@ default-extensions:
 - NoImplicitPrelude
 
 - ConstraintKinds
+- DataKinds
 - FlexibleContexts
 - FlexibleInstances
 - GeneralizedNewtypeDeriving
+- LambdaCase
+- OverloadedLabels
 - OverloadedStrings
 - PolyKinds
 - RankNTypes
 - StandaloneDeriving
 - TypeFamilies
+- TypeOperators
 - TypeSynonymInstances
 
 dependencies:
 - base >= 4.7 && < 5
 - rio >= 0.1.1.0
-- extensible >= 0.4.9
 - aeson
+- extensible >= 0.6
+- fallible
+- mix
+- mix-json-logger
 - wreq
 
 library:
@@ -51,15 +56,5 @@ executables:
     source-dirs: app
     dependencies:
     - mdium
-    - gitrev
+    - githash
     - dotenv
-
-tests:
-  mdium-test:
-    main: Driver.hs
-    source-dirs: test
-    dependencies:
-    - mdium
-    - tasty
-    - tasty-hspec
-    other-modules: []

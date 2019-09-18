@@ -1,7 +1,3 @@
-{-# LANGUAGE DataKinds        #-}
-{-# LANGUAGE OverloadedLabels #-}
-{-# LANGUAGE TypeOperators    #-}
-
 module Mdium.Cmd.Options where
 
 import           RIO
@@ -11,6 +7,7 @@ import           Data.Extensible.GetOpt
 
 type Options = Record
   '[ "input"        >: [String]
+   , "help"         >: Bool
    , "version"      >: Bool
    , "verbose"      >: Bool
    , "me"           >: Bool
@@ -18,6 +15,9 @@ type Options = Record
    , "org"          >: Maybe Text
    , "publications" >: Bool
    ]
+
+helpOpt :: OptDescr' Bool
+helpOpt = optFlag [] ["help"] "Show this help text"
 
 versionOpt :: OptDescr' Bool
 versionOpt = optFlag [] ["version"] "Show version"
@@ -34,7 +34,7 @@ titleOpt =
 
 orgOpt :: OptDescr' (Maybe Text)
 orgOpt =
-  fmap fromString <$> optLastArg [] ["org"] "PUBLICATION_ID" "Post to override story of PUBLICATION_ID"
+  fmap fromString <$> optLastArg [] ["org"] "PUBLICATION_ID" "Post story to PUBLICATION_ID organization"
 
 publicationsOpt :: OptDescr' Bool
 publicationsOpt = optFlag [] ["publications"] "Call Medium `publications` API"

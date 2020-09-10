@@ -2,6 +2,11 @@
 
 ## Unreleased changes
 
+- Misc: update LTS to 16.3 (GHC 8.8.4)
+- CI: replace to GitHub Actions
+- Misc: use GitHub Container Registry
+- Misc: add ENTRYPOINT to Docker image
+
 ### 1.0.0
 
 - Feat: `--publications` option (show your publication groups)

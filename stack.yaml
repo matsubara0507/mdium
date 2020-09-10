@@ -1,15 +1,12 @@
-resolver: lts-14.6
+resolver: lts-16.13
 packages:
 - .
 extra-deps:
-- dotenv-0.8.0.2
-- megaparsec-7.0.5
-- extensible-0.6.1
+- extensible-0.8
 - membership-0
-- github: matsubara0507/fallible
-  commit: dfbdce1a0b0c71bcfcea844c94f9cb815f071235
+- fallible-0.1.0
 - github: matsubara0507/mix.hs
-  commit: 4978a33dec736799b30c14e215f7fa0f29fa2884
+  commit: 75714be080db16f6a4f9d0a22e86947ffcdadc57
   subdirs:
   - mix
   - mix-json-logger

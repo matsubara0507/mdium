@@ -18,6 +18,7 @@ ghc-options:
 - -Wincomplete-record-updates
 - -Wincomplete-uni-patterns
 - -Wredundant-constraints
+- -optP-Wno-nonportable-include-path
 
 default-extensions:
 - NoImplicitPrelude

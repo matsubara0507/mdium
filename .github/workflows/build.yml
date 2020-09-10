@@ -78,5 +78,5 @@ jobs:
         builder: ${{ steps.buildx.outputs.name }}
         platforms: linux/amd64,linux/arm64,linux/386
         tags: ${{ steps.prep.outputs.tags }}
-        push: github.event_name == 'push'
+        push: ${{ github.event_name != 'pull_request' }}
         build-args: local_bin_path=./bin

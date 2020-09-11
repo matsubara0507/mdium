@@ -41,7 +41,7 @@ jobs:
       run: stack --system-ghc test --only-dependencies
 
     - name: Build and Test
-      run: stack --system-ghc test --local-bin-path=./bin
+      run: stack --system-ghc test --copy-bins --local-bin-path=./bin
 
     # Build and Push Docker Image
     - name: Prepare

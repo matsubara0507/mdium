@@ -14,6 +14,7 @@ load(
 # haskell_toolchain_library(name = "base")
 
 load("//:build/common.bzl", "GHC_FLAGS")
+load("//build/rules/haskell:def.bzl", "paths_module")
 
 # You can add your own libraries with haskell_library.
 haskell_library(
@@ -33,6 +34,12 @@ haskell_library(
     compiler_flags = GHC_FLAGS,
 )
 
+paths_module(
+    name = "paths_module",
+    package = "mdium",
+    version = "1.0.0",
+)
+
 # An example binary using the Prelude module from the
 # GHC base package, and zlib from stackage, to print the hello world.
 haskell_binary(
@@ -40,6 +47,7 @@ haskell_binary(
     srcs = glob(["app/**/*.hs"]),
     deps = [
         ":mdium-library",
+        ":paths_module",
         "@stackage//:base",
         "@stackage//:rio",
         "@stackage//:extensible",

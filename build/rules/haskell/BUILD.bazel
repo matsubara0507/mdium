@@ -1,0 +1,12 @@
+filegroup(
+    name = "all",
+    srcs = glob(["*"]),
+    visibility = ["//visibility:public"],
+)
+
+exports_files(
+    [
+        "Paths_module.hs",
+    ],
+    visibility = ["//visibility:public"],
+)

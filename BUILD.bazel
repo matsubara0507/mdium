@@ -1,0 +1,49 @@
+# Set all target’s visibility in this package to "public".
+package(default_visibility = ["//visibility:public"])
+
+# Load rules_haskell rules.
+load(
+    "@rules_haskell//haskell:defs.bzl",
+    "haskell_library",
+    "haskell_binary",
+)
+
+# haskell_toolchain_library can access builtin GHC packages
+# and assign them a bazel target name, so that they
+# can be referenced as dependencies.
+# haskell_toolchain_library(name = "base")
+
+load("//:build/common.bzl", "GHC_FLAGS")
+
+# You can add your own libraries with haskell_library.
+haskell_library(
+    name = "mdium-library",
+    src_strip_prefix = "src",
+    srcs = glob(['src/**/*.hs']),
+    deps = [
+        "@stackage//:base",
+        "@stackage//:rio",
+        "@stackage//:aeson",
+        "@stackage//:extensible",
+        "@stackage//:fallible",
+        "@stackage//:mix",
+        "@stackage//:mix-json-logger",
+        "@stackage//:wreq",
+    ],
+    compiler_flags = GHC_FLAGS,
+)
+
+# An example binary using the Prelude module from the
+# GHC base package, and zlib from stackage, to print the hello world.
+haskell_binary(
+    name = "mdium",
+    srcs = glob(["app/**/*.hs"]),
+    deps = [
+        ":mdium-library",
+        "@stackage//:base",
+        "@stackage//:rio",
+        "@stackage//:extensible",
+        "@stackage//:dotenv",
+    ],
+    compiler_flags = GHC_FLAGS,
+)

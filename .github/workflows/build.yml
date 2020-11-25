@@ -20,9 +20,10 @@ jobs:
 
     - name: Cache Bazel
       uses: actions/cache@v2
-      path: |
-        ~/.cache/bazel
-      key: ${{ runner.os }}-${{ hashFiles('WORKSPACE') }}
+      with:
+        path: |
+          ~/.cache/bazel
+        key: ${{ runner.os }}-${{ hashFiles('WORKSPACE') }}
 
     - name: Build binary
       run: |

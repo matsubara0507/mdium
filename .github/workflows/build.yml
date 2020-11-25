@@ -48,4 +48,5 @@ jobs:
         password: ${{ secrets.CR_PAT }}
 
     - name: Push image
+      if: ${{ github.event_name != 'pull_request' }}
       run: bazelisk run //:push

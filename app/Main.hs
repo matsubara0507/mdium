@@ -32,4 +32,5 @@ main = withGetOpt' "[options] [input-file]" opts $ \r args usage -> do
         <: #title        @= titleOpt
         <: #org          @= orgOpt
         <: #publications @= publicationsOpt
+        <: #gist         @= gistOpt
         <: nil

@@ -15,7 +15,7 @@ I like **Haskell** !!
 
 this is `code`.
 
-```haskell
+```hs
 main :: IO ()
 main = putStrLn "Hello"
 ```

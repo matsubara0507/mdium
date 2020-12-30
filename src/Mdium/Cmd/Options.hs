@@ -14,6 +14,7 @@ type Options = Record
    , "title"        >: Text
    , "org"          >: Maybe Text
    , "publications" >: Bool
+   , "gist"         >: Bool
    ]
 
 helpOpt :: OptDescr' Bool
@@ -38,6 +39,9 @@ orgOpt =
 
 publicationsOpt :: OptDescr' Bool
 publicationsOpt = optFlag [] ["publications"] "Call Medium `publications` API"
+
+gistOpt :: OptDescr' Bool
+gistOpt = optFlag [] ["gist"] "Replace code block to gist link"
 
 optLastArgWithDefault
   :: [Char]   -- ^ short option

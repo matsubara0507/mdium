@@ -1,27 +1,35 @@
 module Mdium.Cmd.Run where
 
 import           RIO
+import qualified RIO.ByteString         as B
+import qualified RIO.HashMap            as HM
 
 import           Data.Extensible
 import           Data.Fallible
 import           GHC.IO.Encoding        (utf8)
+import qualified GitHub
 import qualified Mdium.API              as API
 import           Mdium.Cmd.Options
 import           Mdium.Env
 import           Mix
+import qualified Mix.Plugin.GitHub      as MixGitHub
 import           Mix.Plugin.Logger      as MixLogger
 import           Mix.Plugin.Logger.JSON as MixLogger
 import           System.Environment     (getEnv)
 import           System.IO              (hSetEncoding)
+import qualified Text.Pandoc            as Pandoc
+import qualified Text.Pandoc.Walk       as Pandoc
 
 run :: MonadUnliftIO m => RIO Env () -> Options -> m ()
 run cmd opts = do
   liftIO $ hSetEncoding stdout utf8
-  token <- liftIO $ getEnv "MEDIUM_TOKEN"
+  token   <- liftIO $ getEnv "MEDIUM_TOKEN"
+  ghToken <- if opts ^. #gist then liftIO $ getEnv "GH_TOKEN" else pure ""
   let logOpt = #handle @= stdout <: shrink opts
       plugin = hsequence
              $ #logger <@=> MixLogger.buildPlugin logOpt
             <: #token  <@=> pure (fromString token)
+            <: #github <@=> pure (fromString ghToken)
             <: nil
   Mix.run plugin cmd
 
@@ -29,7 +37,7 @@ postStory :: [FilePath] -> Text -> RIO Env ()
 postStory paths title = evalContT $ do
   MixLogger.logDebugR "run command" (#cmd @= ("post story" :: Text) <: nil)
   path    <- listToMaybe paths ??? exit (MixLogger.logError "please input filepath")
-  content <- readPostContent path
+  content <- (lift . customizeContent) =<< readPostContent path
   token   <- asks (view #token)
   params  <- constructPostParams title content
   user    <- API.getMe token
@@ -43,7 +51,7 @@ postStroyWithPublicationId pid paths title = evalContT $ do
   MixLogger.logDebugR "run command"
     (#cmd @= ("post story with publication id" :: Text) <: #publication_id @= pid <: nil)
   path    <- listToMaybe paths ??? exit (MixLogger.logError "please input filepath")
-  content <- readPostContent path
+  content <- (lift . customizeContent) =<< readPostContent path
   token   <- asks (view #token)
   params  <- constructPostParams title content
   story   <- API.postStroyWithPublicationId token pid params
@@ -57,6 +65,28 @@ readPostContent path = do
   content <- readFileUtf8 path
   MixLogger.logDebugR "readed file" (#content @= content <: nil)
   pure content
+
+customizeContent :: Text -> RIO Env Text
+customizeContent content = do
+  p0 <- liftIO $ Pandoc.runIOorExplode (Pandoc.readCommonMark Pandoc.def content)
+  useGist <- not . B.null <$> asks (view #github)
+  p1 <- if useGist then Pandoc.walkPandocM codeBlockToGistLink p0 else pure p0
+  liftIO $ Pandoc.runIOorExplode (Pandoc.writeCommonMark Pandoc.def p1)
+
+codeBlockToGistLink :: Pandoc.Block -> RIO Env Pandoc.Block
+codeBlockToGistLink = \case
+  Pandoc.CodeBlock (_, [ext], _) txt -> do
+    gistUrl <- createGist ext txt
+    pure $ Pandoc.Plain [Pandoc.Str gistUrl]
+  block -> pure block
+
+createGist :: Text -> Text -> RIO Env Text
+createGist ext txt = do
+  let files = HM.fromList [("sample." <> ext, GitHub.NewGistFile txt)]
+  resp <- MixGitHub.fetch $ GitHub.createGistR (GitHub.NewGist "" files True)
+  case resp of
+    Left err   -> MixLogger.logError (display $ tshow err) >> pure ""
+    Right gist -> pure (GitHub.getUrl $ GitHub.gistHtmlUrl gist)
 
 constructPostParams ::
   (MonadIO m, MonadReader e m, HasLogFunc e) => Text -> Text -> m API.PostStoryParams

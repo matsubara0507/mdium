@@ -46,6 +46,9 @@ dependencies:
 - fallible
 - mix
 - mix-json-logger
+- mix-plugin-github
+- pandoc
+- pandoc-types
 - wreq
 
 library:

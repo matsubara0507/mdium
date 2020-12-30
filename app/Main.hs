@@ -6,9 +6,9 @@ import           RIO.Directory        (doesFileExist, getHomeDirectory)
 
 import           Configuration.Dotenv (Config (..), defaultConfig, loadFile)
 import           Data.Extensible
+import qualified Data.Version         as Version
 import           GetOpt               (withGetOpt')
 import           Mdium.Cmd
-import qualified Version
 
 main :: IO ()
 main = withGetOpt' "[options] [input-file]" opts $ \r args usage -> do
@@ -17,7 +17,7 @@ main = withGetOpt' "[options] [input-file]" opts $ \r args usage -> do
   _ <- loadEnvFileIfExist $ defaultConfig { configPath = [homeDir <> "/.env"] }
   case toCmd (#input @= args <: r) of
     PrintHelp             -> hPutBuilder stdout (fromString usage)
-    PrintVersion          -> hPutBuilder stdout (Version.build version)
+    PrintVersion          -> hPutBuilder stdout (fromString $ Version.showVersion version <> "\n")
     CallMeAPI opts'       -> run callMeAPI opts'
     PostStory opts'       -> run (postStory (opts' ^. #input) (opts' ^. #title)) opts'
     PostStroyTo opts' pid -> run (postStroyWithPublicationId pid (opts' ^. #input) (opts' ^. #title)) opts'

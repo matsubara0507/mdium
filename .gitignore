@@ -3,3 +3,4 @@ mdium.cabal
 .env
 bin/
 temp/
+bazel-*

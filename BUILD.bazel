@@ -1,0 +1,82 @@
+# Set all target’s visibility in this package to "public".
+package(default_visibility = ["//visibility:public"])
+
+# Load rules_haskell rules.
+load(
+    "@rules_haskell//haskell:defs.bzl",
+    "haskell_library",
+    "haskell_binary",
+)
+
+# haskell_toolchain_library can access builtin GHC packages
+# and assign them a bazel target name, so that they
+# can be referenced as dependencies.
+# haskell_toolchain_library(name = "base")
+
+load("//:build/common.bzl", "GHC_FLAGS")
+load("//build/rules/haskell:def.bzl", "paths_module")
+
+# You can add your own libraries with haskell_library.
+haskell_library(
+    name = "mdium-library",
+    src_strip_prefix = "src",
+    srcs = glob(['src/**/*.hs']),
+    deps = [
+        "@stackage//:base",
+        "@stackage//:rio",
+        "@stackage//:aeson",
+        "@stackage//:extensible",
+        "@stackage//:fallible",
+        "@stackage//:mix",
+        "@stackage//:mix-json-logger",
+        "@stackage//:wreq",
+    ],
+    compiler_flags = GHC_FLAGS,
+)
+
+paths_module(
+    name = "paths_module",
+    package = "mdium",
+    version = "1.0.0",
+)
+
+# An example binary using the Prelude module from the
+# GHC base package, and zlib from stackage, to print the hello world.
+haskell_binary(
+    name = "mdium",
+    srcs = glob(["app/**/*.hs"]),
+    deps = [
+        ":mdium-library",
+        ":paths_module",
+        "@stackage//:base",
+        "@stackage//:rio",
+        "@stackage//:extensible",
+        "@stackage//:dotenv",
+    ],
+    compiler_flags = GHC_FLAGS,
+)
+
+load("@rules_pkg//:pkg.bzl", "pkg_tar")
+load("@io_bazel_rules_docker//container:container.bzl", "container_image", "container_push")
+
+pkg_tar(
+    name = "bin",
+    srcs = [":mdium"],
+    mode = "0755",
+    package_dir = "/usr/local/bin",
+)
+
+container_image(
+    name = "image",
+    base = "@haskell_base//image",
+    tars = [":bin"],
+    entrypoint = ["/usr/local/bin/mdium"],
+)
+
+container_push(
+    name = "push",
+    format = "Docker",
+    image = ":image",
+    registry = "ghcr.io",
+    repository = "matsubara0507/mdium",
+)

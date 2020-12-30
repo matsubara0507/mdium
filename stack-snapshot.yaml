@@ -1,0 +1,11 @@
+resolver: lts-16.23
+packages:
+- extensible-0.8.1
+- membership-0
+- fallible-0.1.0
+- incremental-0.3.1
+- github: matsubara0507/mix.hs
+  commit: 75714be080db16f6a4f9d0a22e86947ffcdadc57
+  subdirs:
+  - mix
+  - mix-json-logger

@@ -45,8 +45,9 @@ mdium [options] [input-file]
   -v  --verbose             Enable verbose mode: verbosity level "debug"
       --me                  Call Medium `me` API
       --title=TEXT          Specify title of story that post to medium
-      --org=PUBLICATION_ID  Post to override story of PUBLICATION_ID
+      --org=PUBLICATION_ID  Post story to PUBLICATION_ID organization
       --publications        Call Medium `publications` API
+      --gist=TEXT           Replace code block to gist link, TEXT is prefix for gist file name
 ```
 
 Set Medium integration token to `MEDIUM_TOKEN` environment (use `./.env` or `~/.env`).
@@ -60,8 +61,8 @@ Hi MATSUBARA Nobutada!!
 If post [`examle/example.md`](example/example.md) to Medium:
 
 ```
-$ mdium ./example/examle.md
-post success, browse to: https://medium.com/@nobutada/e31f70013b36
+$ mdium --gist=mdium-example- ./example/examle.md
+post success, browse to: https://medium.com/@nobutada/f40bd8e72f3e
 ```
 
 then generate story like below in Medium:

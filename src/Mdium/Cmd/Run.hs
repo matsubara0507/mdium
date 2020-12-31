@@ -3,6 +3,8 @@ module Mdium.Cmd.Run where
 import           RIO
 import qualified RIO.ByteString         as B
 import qualified RIO.HashMap            as HM
+import           RIO.State              (StateT (..))
+import qualified RIO.State              as State
 
 import           Data.Extensible
 import           Data.Fallible
@@ -70,19 +72,25 @@ customizeContent :: Text -> RIO Env Text
 customizeContent content = do
   p0 <- liftIO $ Pandoc.runIOorExplode (Pandoc.readCommonMark Pandoc.def content)
   useGist <- not . B.null <$> asks (view #github)
-  p1 <- if useGist then Pandoc.walkPandocM codeBlockToGistLink p0 else pure p0
+  p1 <- if useGist then
+          fst <$> runStateT (Pandoc.walkPandocM codeBlockToGistLink p0) 1
+        else
+          pure p0
   liftIO $ Pandoc.runIOorExplode (Pandoc.writeCommonMark Pandoc.def p1)
 
-codeBlockToGistLink :: Pandoc.Block -> RIO Env Pandoc.Block
+codeBlockToGistLink :: Pandoc.Block -> StateT Int (RIO Env) Pandoc.Block
 codeBlockToGistLink = \case
   Pandoc.CodeBlock (_, [ext], _) txt -> do
-    gistUrl <- createGist ext txt
+    cnt <- State.get
+    gistUrl <- lift $ createGist ("", tshow cnt) ext txt
+    State.modify (+ 1)
     pure $ Pandoc.Plain [Pandoc.Str gistUrl]
   block -> pure block
 
-createGist :: Text -> Text -> RIO Env Text
-createGist ext txt = do
-  let files = HM.fromList [("sample." <> ext, GitHub.NewGistFile txt)]
+createGist :: (Text, Text) -> Text -> Text -> RIO Env Text
+createGist (prefix, suffix) ext txt = do
+  let name  = prefix <> "sample" <> suffix <> "." <> ext
+      files = HM.fromList [(name, GitHub.NewGistFile txt)]
   resp <- MixGitHub.fetch $ GitHub.createGistR (GitHub.NewGist "" files True)
   case resp of
     Left err   -> MixLogger.logError (display $ tshow err) >> pure ""

@@ -85,20 +85,18 @@ replaceCodeBlockToGistLinkIn doc = do
 replaceCodeBlockToGistLink :: Text -> Pandoc.Block -> StateT Int (RIO Env) Pandoc.Block
 replaceCodeBlockToGistLink prefix = \case
   Pandoc.CodeBlock (_, [ext], _) txt -> do
-    cnt <- State.get
-    gistUrl <- lift $ createGist (prefix, tshow cnt) ext txt
+    cnt  <- State.get
+    gist <- lift $ createGist (prefix, tshow cnt) ext txt
     State.modify (+ 1)
-    pure $ Pandoc.Plain [Pandoc.Str gistUrl]
+    pure $ Pandoc.Plain [Pandoc.Str (GitHub.getUrl $ GitHub.gistHtmlUrl gist)]
   block -> pure block
 
-createGist :: (Text, Text) -> Text -> Text -> RIO Env Text
+createGist :: (Text, Text) -> Text -> Text -> RIO Env GitHub.Gist
 createGist (prefix, suffix) ext txt = do
   let name  = prefix <> "sample" <> suffix <> "." <> ext
       files = HM.fromList [(name, GitHub.NewGistFile txt)]
-  resp <- MixGitHub.fetch $ GitHub.createGistR (GitHub.NewGist "" files True)
-  case resp of
-    Left err   -> MixLogger.logError (display $ tshow err) >> pure ""
-    Right gist -> pure (GitHub.getUrl $ GitHub.gistHtmlUrl gist)
+  MixLogger.logDebugR "create gist" (#file_name @= name <: nil)
+  either throwM pure =<< MixGitHub.fetch (GitHub.createGistR $ GitHub.NewGist "" files True)
 
 constructPostParams ::
   (MonadIO m, MonadReader e m, HasLogFunc e) => Text -> Text -> m API.PostStoryParams

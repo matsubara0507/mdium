@@ -1,7 +1,6 @@
 module Mdium.Cmd.Run where
 
 import           RIO
-import qualified RIO.ByteString         as B
 import qualified RIO.HashMap            as HM
 import           RIO.State              (StateT (..))
 import qualified RIO.State              as State
@@ -19,6 +18,7 @@ import           Mix.Plugin.Logger      as MixLogger
 import           Mix.Plugin.Logger.JSON as MixLogger
 import           System.Environment     (getEnv)
 import           System.IO              (hSetEncoding)
+import           Text.Pandoc            (Pandoc)
 import qualified Text.Pandoc            as Pandoc
 import qualified Text.Pandoc.Walk       as Pandoc
 
@@ -26,12 +26,13 @@ run :: MonadUnliftIO m => RIO Env () -> Options -> m ()
 run cmd opts = do
   liftIO $ hSetEncoding stdout utf8
   token   <- liftIO $ getEnv "MEDIUM_TOKEN"
-  ghToken <- if opts ^. #gist then liftIO $ getEnv "GH_TOKEN" else pure ""
+  ghToken <- liftIO $ bool (pure "") (getEnv "GH_TOKEN") (isJust $ opts ^. #gist)
   let logOpt = #handle @= stdout <: shrink opts
       plugin = hsequence
-             $ #logger <@=> MixLogger.buildPlugin logOpt
-            <: #token  <@=> pure (fromString token)
-            <: #github <@=> pure (fromString ghToken)
+             $ #logger     <@=> MixLogger.buildPlugin logOpt
+            <: #token      <@=> pure (fromString token)
+            <: #github     <@=> pure (fromString ghToken)
+            <: #gistPrefix <@=> pure (opts ^. #gist)
             <: nil
   Mix.run plugin cmd
 
@@ -71,18 +72,21 @@ readPostContent path = do
 customizeContent :: Text -> RIO Env Text
 customizeContent content = do
   p0 <- liftIO $ Pandoc.runIOorExplode (Pandoc.readCommonMark Pandoc.def content)
-  useGist <- not . B.null <$> asks (view #github)
-  p1 <- if useGist then
-          fst <$> runStateT (Pandoc.walkPandocM codeBlockToGistLink p0) 1
-        else
-          pure p0
+  p1 <- replaceCodeBlockToGistLinkIn p0
   liftIO $ Pandoc.runIOorExplode (Pandoc.writeCommonMark Pandoc.def p1)
 
-codeBlockToGistLink :: Pandoc.Block -> StateT Int (RIO Env) Pandoc.Block
-codeBlockToGistLink = \case
+replaceCodeBlockToGistLinkIn :: Pandoc -> RIO Env Pandoc
+replaceCodeBlockToGistLinkIn doc = do
+  prefix <- asks (view #gistPrefix)
+  case prefix of
+    Just p  -> fst <$> runStateT (Pandoc.walkPandocM (replaceCodeBlockToGistLink p) doc) 1
+    Nothing -> pure doc
+
+replaceCodeBlockToGistLink :: Text -> Pandoc.Block -> StateT Int (RIO Env) Pandoc.Block
+replaceCodeBlockToGistLink prefix = \case
   Pandoc.CodeBlock (_, [ext], _) txt -> do
     cnt <- State.get
-    gistUrl <- lift $ createGist ("", tshow cnt) ext txt
+    gistUrl <- lift $ createGist (prefix, tshow cnt) ext txt
     State.modify (+ 1)
     pure $ Pandoc.Plain [Pandoc.Str gistUrl]
   block -> pure block

@@ -14,7 +14,7 @@ type Options = Record
    , "title"        >: Text
    , "org"          >: Maybe Text
    , "publications" >: Bool
-   , "gist"         >: Bool
+   , "gist"         >: Maybe Text
    ]
 
 helpOpt :: OptDescr' Bool
@@ -40,8 +40,9 @@ orgOpt =
 publicationsOpt :: OptDescr' Bool
 publicationsOpt = optFlag [] ["publications"] "Call Medium `publications` API"
 
-gistOpt :: OptDescr' Bool
-gistOpt = optFlag [] ["gist"] "Replace code block to gist link"
+gistOpt :: OptDescr' (Maybe Text)
+gistOpt =
+  fmap fromString <$> optLastArg [] ["gist"] "TEXT" "Replace code block to gist link, TEXT is prefix for gist file name"
 
 optLastArgWithDefault
   :: [Char]   -- ^ short option

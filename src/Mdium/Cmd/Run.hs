@@ -96,7 +96,7 @@ createGist (prefix, suffix) ext txt = do
   let name  = prefix <> "sample" <> suffix <> "." <> ext
       files = HM.fromList [(name, GitHub.NewGistFile txt)]
   MixLogger.logDebugR "create gist" (#file_name @= name <: nil)
-  either throwM pure =<< MixGitHub.fetch (GitHub.createGistR $ GitHub.NewGist "" files True)
+  either throwM pure =<< MixGitHub.fetch (GitHub.createGistR $ GitHub.NewGist Nothing files Nothing)
 
 constructPostParams ::
   (MonadIO m, MonadReader e m, HasLogFunc e) => Text -> Text -> m API.PostStoryParams

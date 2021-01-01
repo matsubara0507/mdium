@@ -27,4 +27,4 @@ packages:
   - mix-json-logger
   - mix-plugin-github
 - github: matsubara0507/github
-  commit: c7960f4eea56365bf10239a61ebc45b7ce24cc9d
+  commit: c44824bb6c41aad7fc9ac59e4686e138c9d67066

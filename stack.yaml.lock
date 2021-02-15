@@ -184,16 +184,16 @@ packages:
     subdir: mix-plugin-github
     url: https://github.com/matsubara0507/mix.hs/archive/75714be080db16f6a4f9d0a22e86947ffcdadc57.tar.gz
 - completed:
-    size: 88202
-    url: https://github.com/matsubara0507/github/archive/c7960f4eea56365bf10239a61ebc45b7ce24cc9d.tar.gz
+    size: 88221
+    url: https://github.com/matsubara0507/github/archive/c44824bb6c41aad7fc9ac59e4686e138c9d67066.tar.gz
     name: github
     version: '0.26'
-    sha256: 24ed1ad43002fcaa1ad056d440cf6bf902fe8346db023fc38fff00dafd975510
+    sha256: 5335b5c381d9fc7ff0d8dd2f29409fcbc24bd28416c77534d06179947698db9a
     pantry-tree:
       size: 16356
-      sha256: 8a92853e9f98a2dc9bdb4d098a21ddf6442afa3d672571102ca7d8ebb426175f
+      sha256: 28aaf66950013c4fc5bec58fc14ee4c40ef0a2f2e65b3ca3441ef013c25755f1
   original:
-    url: https://github.com/matsubara0507/github/archive/c7960f4eea56365bf10239a61ebc45b7ce24cc9d.tar.gz
+    url: https://github.com/matsubara0507/github/archive/c44824bb6c41aad7fc9ac59e4686e138c9d67066.tar.gz
 snapshots:
 - completed:
     size: 532832

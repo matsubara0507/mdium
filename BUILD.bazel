@@ -13,18 +13,23 @@ load(
 # can be referenced as dependencies.
 # haskell_toolchain_library(name = "base")
 
-load("//:build/common.bzl", "GHC_FLAGS")
-load("//build/rules/haskell:def.bzl", "paths_module")
+load(
+    "//:build/common.bzl",
+    "GHC_FLAGS",
+)
+load(
+    "//build/rules/haskell:def.bzl",
+    "paths_module",
+)
 
 # You can add your own libraries with haskell_library.
 haskell_library(
     name = "mdium-library",
     src_strip_prefix = "src",
-    srcs = glob(['src/**/*.hs']),
+    srcs = glob(["src/**/*.hs"]),
     deps = [
-        "@stackage//:base",
-        "@stackage//:rio",
         "@stackage//:aeson",
+        "@stackage//:base",
         "@stackage//:extensible",
         "@stackage//:fallible",
         "@stackage//:github",
@@ -33,6 +38,7 @@ haskell_library(
         "@stackage//:mix-plugin-github",
         "@stackage//:pandoc",
         "@stackage//:pandoc-types",
+        "@stackage//:rio",
         "@stackage//:wreq",
     ],
     compiler_flags = GHC_FLAGS,
@@ -60,8 +66,15 @@ haskell_binary(
     compiler_flags = GHC_FLAGS,
 )
 
-load("@rules_pkg//:pkg.bzl", "pkg_tar")
-load("@io_bazel_rules_docker//container:container.bzl", "container_image", "container_push")
+load(
+    "@rules_pkg//:pkg.bzl",
+    "pkg_tar",
+)
+load(
+    "@io_bazel_rules_docker//container:container.bzl",
+    "container_image",
+    "container_push",
+)
 
 pkg_tar(
     name = "bin",

@@ -44,6 +44,7 @@ dependencies:
 - aeson
 - extensible >= 0.6
 - fallible
+- github
 - mix
 - mix-json-logger
 - mix-plugin-github
@@ -60,5 +61,4 @@ executables:
     source-dirs: app
     dependencies:
     - mdium
-    - githash
     - dotenv

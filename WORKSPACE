@@ -4,7 +4,7 @@ workspace(name = "mdium")
 # Load the repository rule to download an http archive.
 load(
     "@bazel_tools//tools/build_defs/repo:http.bzl",
-    "http_archive"
+    "http_archive",
 )
 
 # For Docker:
@@ -40,15 +40,14 @@ load(
 
 load(
     "@rules_haskell//haskell:cabal.bzl",
-    "stack_snapshot"
+    "stack_snapshot",
 )
 
 stack_snapshot(
     name = "stackage",
     packages = [
-        "base",
-        "rio",
         "aeson",
+        "base",
         "dotenv",
         "extensible",
         "fallible",
@@ -58,16 +57,10 @@ stack_snapshot(
         "mix-plugin-github",
         "pandoc",
         "pandoc-types",
+        "rio",
         "wreq",
     ],
-    # Last snapshot published for ghc-8.6.5 the default version picked up by
-    # rules_haskell
-    # snapshot = "lts-14.27",
     local_snapshot = "//:stack-snapshot.yaml",
-    # This uses an unpinned version of stack_snapshot, meaning that stack is invoked on every build.
-    # To switch to pinned stackage dependencies, run `bazel run @stackage-unpinned//:pin` and
-    # uncomment the following line.
-    # stack_snapshot_json = "//:stackage_snapshot.json",
 )
 
 # Download a GHC binary distribution from haskell.org and register it as a toolchain.
@@ -87,7 +80,10 @@ load(
 )
 container_repositories()
 
-load("@io_bazel_rules_docker//repositories:deps.bzl", container_deps = "deps")
+load(
+    "@io_bazel_rules_docker//repositories:deps.bzl",
+    container_deps = "deps",
+)
 container_deps()
 
 load(

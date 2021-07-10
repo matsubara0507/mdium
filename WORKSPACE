@@ -13,16 +13,16 @@ load(
 #  So, install rules_python 0.1.0 before exec rules_haskell_dependencies.
 http_archive(
     name = "rules_python",
-    sha256 = "b6d46438523a3ec0f3cead544190ee13223a52f6a6765a29eae7b7cc24cc83a0",
-    urls = ["https://github.com/bazelbuild/rules_python/releases/download/0.1.0/rules_python-0.1.0.tar.gz"],
+    url = "https://github.com/bazelbuild/rules_python/releases/download/0.3.0/rules_python-0.3.0.tar.gz",
+    sha256 = "934c9ceb552e84577b0faf1e5a2f0450314985b4d8712b2b70717dc679fdc01b",
 )
 
 # Download rules_haskell and make it accessible as "@rules_haskell".
 http_archive(
     name = "rules_haskell",
-    strip_prefix = "rules_haskell-3b8182ca5287cf93687fff1cefd98910f683b679",
-    urls = ["https://github.com/tweag/rules_haskell/archive/3b8182ca5287cf93687fff1cefd98910f683b679.tar.gz"],
-    sha256 = "85f269adfecfc5760fae6017608f7efebfccb719c22c7e71af03c4887f54b08e",
+    strip_prefix = "rules_haskell-c0e0759dc9c170ec589953194c0efa8fb1f5341d",
+    urls = ["https://github.com/tweag/rules_haskell/archive/c0e0759dc9c170ec589953194c0efa8fb1f5341d.tar.gz"],
+    sha256 = "3ed7e30e3aefe33e5e1c785d5d10dce2467172d670695b6c55b69052028f240c",
 )
 
 load(
@@ -60,18 +60,23 @@ stack_snapshot(
         "rio",
         "wreq",
     ],
+    setup_deps = {
+        "xml-conduit": ["cabal-doctest"],
+    },
     local_snapshot = "//:stack-snapshot.yaml",
 )
 
 # Download a GHC binary distribution from haskell.org and register it as a toolchain.
-rules_haskell_toolchains(version = "8.8.4")
+rules_haskell_toolchains(version = "8.10.4")
 
 # Docker
 http_archive(
     name = "io_bazel_rules_docker",
-    sha256 = "1698624e878b0607052ae6131aa216d45ebb63871ec497f26c67455b34119c80",
-    strip_prefix = "rules_docker-0.15.0",
-    urls = ["https://github.com/bazelbuild/rules_docker/releases/download/v0.15.0/rules_docker-v0.15.0.tar.gz"],
+    sha256 = "95d39fd84ff4474babaf190450ee034d958202043e366b9fc38f438c9e6c3334",
+    strip_prefix = "rules_docker-0.16.0",
+    urls = ["https://github.com/bazelbuild/rules_docker/releases/download/v0.16.0/rules_docker-v0.16.0.tar.gz"],
+    patches = ["//patch:fix-rules-docker.patch"],
+    patch_args = ["-p1"],
 )
 
 load(
@@ -93,7 +98,7 @@ load(
 
 container_pull(
     name = "haskell_base",
-    registry = "registry.hub.docker.com",
+    registry = "ghcr.io",
     repository = "matsubara0507/ubuntu-for-haskell",
-    digest = "sha256:5967c5908a6c79dc4f4253badfe90326aaf4584a3eaa42d9c9ecc5ae8ba4d133",
+    digest = "sha256:6a4c2444a7644907e0b523baf9d4516d0fe8c573d0165ce52ea9e38e4d096909",
 )

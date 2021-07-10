@@ -45,7 +45,7 @@ jobs:
       with:
         registry: ghcr.io
         username: matsubara0507
-        password: ${{ secrets.CR_PAT }}
+        password: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Push image
       if: ${{ github.event_name != 'pull_request' }}

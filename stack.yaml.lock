@@ -5,19 +5,19 @@
 
 packages:
 - completed:
-    hackage: extensible-0.8.1@sha256:280840e31d92510b342d6a8d82d7af39cfd250194f9c26fca1d5cd406ee206f6,2946
+    hackage: extensible-0.8.2@sha256:f3e7497709199034222e10ba45d3730e21155fb89159ccf1fb0b55f1d7d02697,2963
     pantry-tree:
-      size: 2097
-      sha256: 49d78392bc6da683fe08b01b7e513b5eb471df1b8157616ca4d9dad0a9a23d3d
+      size: 2041
+      sha256: 29d9d1cfb1c5348141f859e74739d212d3c5af9ff0ec359e3f66f872d4be8bc6
   original:
-    hackage: extensible-0.8.1
+    hackage: extensible-0.8.2
 - completed:
-    hackage: membership-0@sha256:3a11d8fd53cb1a76bb9273e6c929bbf9d649f109714bf487abb3143be04ddc81,995
+    hackage: membership-0.0.1@sha256:6c4d4ab6e3fb3253c6c670e8a63f74454dc91be50b9f292d0b1355792190aee5,999
     pantry-tree:
       size: 408
-      sha256: 3b593e0d14e848e318e745555776ebb25210e5e3dec4fde5d3c08ab51ceddc62
+      sha256: b918a1a207108313b2bf453b0d9aa65122d9845c4b360c8ade46d3429ff1107a
   original:
-    hackage: membership-0
+    hackage: membership-0.0.1
 - completed:
     hackage: fallible-0.1.0@sha256:0e0032c34120a43bf1d446172162b546e36441c38f620afb24e9d447ed7ce6b6,1312
     pantry-tree:
@@ -33,12 +33,12 @@ packages:
   original:
     hackage: incremental-0.3.1
 - completed:
-    hackage: binary-instances-1.0.1@sha256:56bb2da1268415901d6ea3f46535b88b89459d7926fbfcca027e25e069ea6f2b,2647
+    hackage: binary-instances-1.0.2@sha256:4a458e5910f21fbabb6a8cd59fdb01c66b50252553f5248ee9093fe3faabad7b,2699
     pantry-tree:
-      size: 1035
-      sha256: 05d4c1e47e9550160fd0ebc97de6d5c2ed5b70afdf3aebf79b111bfe52f09b83
+      size: 1036
+      sha256: 9f3e01b59f531eb4155dc1de6a14b75eb6df4331cea5df6816b936c9e3935602
   original:
-    hackage: binary-instances-1.0.1
+    hackage: binary-instances-1.0.2
 - completed:
     size: 11913
     subdir: mix
@@ -91,7 +91,7 @@ packages:
     url: https://github.com/matsubara0507/github/archive/c44824bb6c41aad7fc9ac59e4686e138c9d67066.tar.gz
 snapshots:
 - completed:
-    size: 585392
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/18/1.yaml
-    sha256: 4e4c5e435a2f1c6f3c650f282db0f387f806406ed4fe6ef1aa4e6add9035d065
-  original: lts-18.1
+    size: 586268
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/18/13.yaml
+    sha256: d9e658a22cfe8d87a64fdf219885f942fef5fe2bcb156a9800174911c5da2443
+  original: lts-18.13

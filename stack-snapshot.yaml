@@ -1,10 +1,10 @@
-resolver: lts-18.1
+resolver: lts-18.13
 packages:
-- extensible-0.8.1
-- membership-0
+- extensible-0.8.2
+- membership-0.0.1
 - fallible-0.1.0
 - incremental-0.3.1
-- binary-instances-1.0.1
+- binary-instances-1.0.2
 
 - github: matsubara0507/mix.hs
   commit: 75714be080db16f6a4f9d0a22e86947ffcdadc57

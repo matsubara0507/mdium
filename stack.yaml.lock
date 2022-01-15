@@ -5,10 +5,10 @@
 
 packages:
 - completed:
-    hackage: extensible-0.8.2@sha256:f3e7497709199034222e10ba45d3730e21155fb89159ccf1fb0b55f1d7d02697,2963
+    hackage: extensible-0.8.2@sha256:a7b21b3fa1fb752f0d2c00aeff8568cf14e6423f8ba6b2eb0bbd34eafe4e029a,3097
     pantry-tree:
       size: 2041
-      sha256: 29d9d1cfb1c5348141f859e74739d212d3c5af9ff0ec359e3f66f872d4be8bc6
+      sha256: da80a9c932c9020aece77c53283d3da3d38e5fb7f327d0a25bfe12e817a238b1
   original:
     hackage: extensible-0.8.2
 - completed:
@@ -79,19 +79,19 @@ packages:
     subdir: mix-plugin-github
     url: https://github.com/matsubara0507/mix.hs/archive/75714be080db16f6a4f9d0a22e86947ffcdadc57.tar.gz
 - completed:
-    size: 88221
-    url: https://github.com/matsubara0507/github/archive/c44824bb6c41aad7fc9ac59e4686e138c9d67066.tar.gz
+    size: 91408
+    url: https://github.com/phadej/github/archive/81d9b658c33a706f18418211a78d2690752518a4.tar.gz
     name: github
-    version: '0.26'
-    sha256: 5335b5c381d9fc7ff0d8dd2f29409fcbc24bd28416c77534d06179947698db9a
+    version: '0.27'
+    sha256: 27fbbc38ac49144038f98a087fbaa3153927f4f50ab079abc83c46aa6c0fc68f
     pantry-tree:
-      size: 16356
-      sha256: 28aaf66950013c4fc5bec58fc14ee4c40ef0a2f2e65b3ca3441ef013c25755f1
+      size: 16684
+      sha256: 2522018631eb3ab522b5787b6ea80e359663e3c84d336f8b36a5fe1a0576b41b
   original:
-    url: https://github.com/matsubara0507/github/archive/c44824bb6c41aad7fc9ac59e4686e138c9d67066.tar.gz
+    url: https://github.com/phadej/github/archive/81d9b658c33a706f18418211a78d2690752518a4.tar.gz
 snapshots:
 - completed:
-    size: 586268
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/18/13.yaml
-    sha256: d9e658a22cfe8d87a64fdf219885f942fef5fe2bcb156a9800174911c5da2443
-  original: lts-18.13
+    size: 586110
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/18/21.yaml
+    sha256: ce4fb8d44f3c6c6032060a02e0ebb1bd29937c9a70101c1517b92a87d9515160
+  original: lts-18.21

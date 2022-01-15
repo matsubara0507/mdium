@@ -1,4 +1,4 @@
-resolver: lts-18.13
+resolver: lts-18.21
 packages:
 - .
 extra-deps:
@@ -14,8 +14,8 @@ extra-deps:
   - mix
   - mix-json-logger
   - mix-plugin-github
-- github: matsubara0507/github
-  commit: c44824bb6c41aad7fc9ac59e4686e138c9d67066
+- github: phadej/github
+  commit: 81d9b658c33a706f18418211a78d2690752518a4
 
 docker:
   repo: matsubara0507/stack-build

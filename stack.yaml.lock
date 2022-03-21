@@ -5,12 +5,12 @@
 
 packages:
 - completed:
-    hackage: extensible-0.8.2@sha256:a7b21b3fa1fb752f0d2c00aeff8568cf14e6423f8ba6b2eb0bbd34eafe4e029a,3097
+    hackage: extensible-0.8.3@sha256:2886978a81e9c2ff29a93caf7ae847a8b7724dc4ee22381c5d29ca8318c686c4,2955
     pantry-tree:
       size: 2041
-      sha256: da80a9c932c9020aece77c53283d3da3d38e5fb7f327d0a25bfe12e817a238b1
+      sha256: 670fd3807d351e2668eb7c10d926c24501ef190e49e4a4624acc822b09b257b4
   original:
-    hackage: extensible-0.8.2
+    hackage: extensible-0.8.3
 - completed:
     hackage: membership-0.0.1@sha256:6c4d4ab6e3fb3253c6c670e8a63f74454dc91be50b9f292d0b1355792190aee5,999
     pantry-tree:
@@ -91,7 +91,7 @@ packages:
     url: https://github.com/phadej/github/archive/81d9b658c33a706f18418211a78d2690752518a4.tar.gz
 snapshots:
 - completed:
-    size: 586110
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/18/21.yaml
-    sha256: ce4fb8d44f3c6c6032060a02e0ebb1bd29937c9a70101c1517b92a87d9515160
-  original: lts-18.21
+    size: 616897
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/19/0.yaml
+    sha256: bbf2be02f17940bac1f87cb462d4fb0c3355de6dcfc53d84f4f9ad3ee2164f65
+  original: lts-19.0

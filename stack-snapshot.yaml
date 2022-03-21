@@ -1,4 +1,4 @@
-resolver: lts-18.21
+resolver: lts-19.0
 packages:
 - extensible-0.8.2
 - membership-0.0.1

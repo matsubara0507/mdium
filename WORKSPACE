@@ -53,6 +53,15 @@ stack_snapshot(
     setup_deps = {
         "xml-conduit": ["cabal-doctest"],
     },
+    components = {
+        "attoparsec": [
+            "lib:attoparsec",
+            "lib:attoparsec-internal",
+        ],
+    },
+    components_dependencies = {
+        "attoparsec": """{"lib:attoparsec": ["lib:attoparsec-internal"]}""",
+    },
     local_snapshot = "//:stack-snapshot.yaml",
 )
 

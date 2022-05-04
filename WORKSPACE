@@ -57,7 +57,7 @@ stack_snapshot(
 )
 
 # Download a GHC binary distribution from haskell.org and register it as a toolchain.
-rules_haskell_toolchains(version = "9.0.2")
+rules_haskell_toolchains(version = "9.0.1")
 
 # Docker
 http_archive(

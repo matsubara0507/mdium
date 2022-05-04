@@ -33,13 +33,6 @@ packages:
   original:
     hackage: incremental-0.3.1
 - completed:
-    hackage: binary-instances-1.0.2@sha256:4a458e5910f21fbabb6a8cd59fdb01c66b50252553f5248ee9093fe3faabad7b,2699
-    pantry-tree:
-      size: 1036
-      sha256: 9f3e01b59f531eb4155dc1de6a14b75eb6df4331cea5df6816b936c9e3935602
-  original:
-    hackage: binary-instances-1.0.2
-- completed:
     size: 11913
     subdir: mix
     url: https://github.com/matsubara0507/mix.hs/archive/75714be080db16f6a4f9d0a22e86947ffcdadc57.tar.gz
@@ -91,7 +84,7 @@ packages:
     url: https://github.com/phadej/github/archive/81d9b658c33a706f18418211a78d2690752518a4.tar.gz
 snapshots:
 - completed:
-    size: 616897
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/19/0.yaml
-    sha256: bbf2be02f17940bac1f87cb462d4fb0c3355de6dcfc53d84f4f9ad3ee2164f65
-  original: lts-19.0
+    size: 618876
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/19/6.yaml
+    sha256: fb634b19f31da06684bb07ce02a20c75a3162138f279b388905b03ebd57bb50f
+  original: lts-19.6

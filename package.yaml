@@ -1,9 +1,9 @@
 name:                mdium
-version:             1.0.0
+version:             1.1.0
 homepage:            https://github.com/matsubara0507/mdium#readme
 license:             MIT
 author:              MATSUBARA Nobutada
-maintainer:          t12307043@gunma-u.ac.jp
+maintainer:          nobutada0507@gmail.com
 copyright:           MATSUBARA Nobutada
 category:            Web
 description:         Please see the README on GitHub at <https://github.com/matsubara0507/mdium#readme>

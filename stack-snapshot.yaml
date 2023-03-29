@@ -4,6 +4,7 @@ packages:
 - membership-0.0.1
 - fallible-0.1.0
 - incremental-0.3.1
+- digest-0.0.1.7 # for bazel
 
 - github: matsubara0507/mix.hs
   commit: 9bcd386526fe10a025a23e951c2de86b05129b17
@@ -11,3 +12,8 @@ packages:
   - mix
   - mix-json-logger
   - mix-plugin-github
+# https://github.com/tweag/rules_haskell/issues/1832
+- git: https://github.com/tweag/cabal
+  commit: 42f04c3f639f10dc3c7981a0c663bfe08ad833cb
+  subdirs:
+  - Cabal

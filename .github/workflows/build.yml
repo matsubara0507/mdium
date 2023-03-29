@@ -9,12 +9,12 @@ on:
 jobs:
   build:
     name: ${{ matrix.os }}
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-20.04]
-        ghc: ["9.0.1"]
+        os: [ubuntu-22.04]
+        ghc: ["9.2.5"]
 
     steps:
     - uses: actions/checkout@v2
@@ -35,14 +35,11 @@ jobs:
     - name: Build image
       run: bazelisk build //:image
 
-    # Build and Push Docker Image
     - name: Setup QEMU
-      uses: docker/setup-qemu-action@master
-      with:
-        platforms: all
+      uses: docker/setup-qemu-action@v2
 
     - name: Login to GitHub Container Registry
-      uses: docker/login-action@v1
+      uses: docker/login-action@v2
       with:
         registry: ghcr.io
         username: matsubara0507

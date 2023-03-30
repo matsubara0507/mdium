@@ -371,5 +371,5 @@ container_pull(
     name = "haskell_base",
     registry = "ghcr.io",
     repository = "matsubara0507/ubuntu-for-haskell",
-    digest = "sha256:6a4c2444a7644907e0b523baf9d4516d0fe8c573d0165ce52ea9e38e4d096909",
+    digest = "sha256:054636add6d47411fa2047cae2d33a9efbe570bdc97504b5eeeaee359d79be79",
 )

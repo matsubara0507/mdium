@@ -18,6 +18,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: inistall libtinfo5 for GHC on Bazel
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libtinfo5
 
     - name: Cache Bazel
       uses: actions/cache@v2

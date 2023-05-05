@@ -47,7 +47,7 @@ haskell_library(
 paths_module(
     name = "paths_module",
     package = "mdium",
-    version = "1.0.0",
+    version = "1.1.0",
 )
 
 # An example binary using the Prelude module from the

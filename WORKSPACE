@@ -343,6 +343,21 @@ stack_snapshot(
 # Download a GHC binary distribution from haskell.org and register it as a toolchain.
 rules_haskell_toolchains(version = "9.2.5")
 
+http_archive(
+    name = "rules_pkg",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/rules_pkg/releases/download/0.9.1/rules_pkg-0.9.1.tar.gz",
+        "https://github.com/bazelbuild/rules_pkg/releases/download/0.9.1/rules_pkg-0.9.1.tar.gz",
+    ],
+    sha256 = "8f9ee2dc10c1ae514ee599a8b42ed99fa262b757058f65ad3c384289ff70c4b8",
+)
+
+load(
+    "@rules_pkg//:deps.bzl",
+    "rules_pkg_dependencies",
+)
+rules_pkg_dependencies()
+
 # Docker
 http_archive(
     name = "io_bazel_rules_docker",
